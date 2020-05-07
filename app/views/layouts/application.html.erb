@@ -9,17 +9,14 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <header>
-    <nav>
-      <%= link_to 'Home', root_path %>
-      <%= link_to 'All Passengers', passenger_index_path %>
-      <%= link_to 'New Passengers', new_passenger_path %>
-      <%= link_to 'All Drivers', driver_index_path %>
-      <%= link_to 'New Driver', new_driver_path %>
-    </nav>
-  </header>
+  <body class='d-flex flex-column h-100', id='main-wrapper'>
+    <%= render 'layouts/header' %>
+    <main role='main' class='flex-shrink-0'>
+      <div class='container'>
+        <%= yield %>
+      </div>
+    </main>
 
-  <body>
-    <%= yield %>
+    <%= render 'layouts/footer' %>
   </body>
 </html>
