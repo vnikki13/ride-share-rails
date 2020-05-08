@@ -1,0 +1,31 @@
+<h1>Edit Trip</h1>
+<%= form_with model: @trip, class: 'edit-trip' do |f| %>
+  <p>Please update the data for the trip:</p>
+  <table>
+  <tr>
+  <td><%= f.label :date%></td>
+  <td><%= f.text_field :date %></td>
+  </tr>
+
+  <tr>
+  <td><%= f.label :rating %></td>
+  <td><%= f.text_field :rating %></td>
+  </tr>
+
+  <tr>
+  <td><%= f.label :cost %></td>
+  <td><%= f.text_field :cost %></td>
+  </tr>
+
+  <tr>
+  <td><%= f.label :passenger_id %></td>
+  <td><%= f.text_field :passenger_id %></td>
+  </tr>
+
+  <tr>
+  <td><%= f.label :driver_id %></td>
+  <td><%= f.text_field :driver_id %></td>
+  </tr>
+  </table>
+  <%= f.submit "Save Trip", class: "button" %>
+<% end %>
