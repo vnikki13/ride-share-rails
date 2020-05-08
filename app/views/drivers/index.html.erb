@@ -32,17 +32,19 @@
   <% @drivers.each do |driver| %>
     <tr>
       <td>
-        <%= link_to 'Delete', drivers_path(driver.id) %>
-        <%= link_to 'Edit', drivers_path(driver.id) %>
+        <%= link_to 'Details', driver_path(driver.id) %>
+        <%= link_to 'Edit', edit_driver_path(driver.id) %>
+        <%= link_to 'Delete', driver_path(driver.id), method: :destroy %>
       </td>
       <td><%= driver.name %></td>
       <td><%= driver.vin %></td>
       <td><%= driver.available %></td>
-      <td>Do some logic</td>
-      <td>Do some logic</td>
+      <td>Avg rating logic</td>
+      <td>Total earnings logic</td>
       <td>
         <% Trip.where(driver_id: driver.id).each do |trip| %>
-          <%= trip.date %> /
+          <%= trip.date %>
+          <%= link_to "info", trip_path(trip.id) %>
         <% end %>
       </td>
     </tr>
