@@ -32,8 +32,8 @@
   <% @drivers.each do |driver| %>
     <tr>
       <td>
-        <%= link_to 'Delete', driver_path(driver.id) %>
-        <%= link_to 'Edit', driver_path(driver.id) %>
+        <%= link_to 'Delete', drivers_path(driver.id) %>
+        <%= link_to 'Edit', drivers_path(driver.id) %>
       </td>
       <td><%= driver.name %></td>
       <td><%= driver.vin %></td>
