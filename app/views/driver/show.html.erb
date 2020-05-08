@@ -1,1 +1,13 @@
 <h1>Showing a Driver</h1>
+
+<%= form_with model: @driver do |f| %>
+  <p>Pleae update the following fields </p>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :vin %>
+    <%= f.text_field :vin %>
+  </div>
+<% end %>

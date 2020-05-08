@@ -14,3 +14,41 @@
   <li>- Click a link to edit that driver</li>
   <li>- Click a link to delete that driver</li>
 </ul>
+
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Vin</th>
+      <th>Availability</th>
+      <th>Ave Rating</th>
+      <th>Total Earnings</th>
+      <th>Trip Dates</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @drivers.each do |driver| %>
+    <tr>
+      <td>
+        <%= link_to 'Delete', driver_path(driver.id) %>
+        <%= link_to 'Edit', driver_path(driver.id) %>
+      </td>
+      <td><%= driver.name %></td>
+      <td><%= driver.vin %></td>
+      <td><%= driver.available %></td>
+      <td>Do some logic</td>
+      <td>Do some logic</td>
+      <td>
+        <% Trip.where(driver_id: driver.id).each do |trip| %>
+          <%= trip.date %> /
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
