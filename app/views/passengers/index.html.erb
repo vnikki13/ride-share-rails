@@ -1,0 +1,28 @@
+<h3>Passengers</h3>
+<ul>
+  <% @passengers.each do |passenger|  %>
+    <li class="list">
+      <%= passenger.id %> - 
+      <%= passenger.name %> : 
+      <%= passenger.phone_num %>
+      <%= button_to "Show", passenger_path(passenger),
+          method: "get", class: "button"
+      %>
+      <%= button_to "Edit", edit_passenger_path(passenger),
+          method: "get", class: "button"
+      %>
+      <%= button_to "Delete", passenger_path(passenger),
+          method: :delete, class: "button",
+          data: {confirm: "Are you sure?"}
+      %>
+    </li>
+  <% end %>
+</ul>
+<h3>Select an action</h3>
+<ul>
+  <li>
+    <%= button_to "Add New Passenger", new_passenger_path,
+      method: "get", class: "button"
+    %>
+  </li>
+</ul>

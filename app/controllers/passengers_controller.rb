@@ -19,6 +19,7 @@ class PassengersController < ApplicationController
     # form submit button calls this
     def create
       @passenger = Passenger.new(
+        id: Passenger.maximum(:id).next, # calculate next available id
         name: params[:passenger][:name],
         phone_num: params[:passenger][:phone_num],
       )
