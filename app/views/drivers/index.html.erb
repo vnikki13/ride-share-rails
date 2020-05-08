@@ -1,0 +1,29 @@
+<h3>Drivers</h3>
+<ul>
+  <% @drivers.each do |driver|  %>
+    <li class="list">
+      <%= driver.id %> - 
+      <%= driver.name %> : 
+      <%= driver.vin %>
+      <%= driver.available %>
+      <%= button_to "Show", driver_path(driver),
+          method: "get", class: "button"
+      %>
+      <%= button_to "Edit", edit_driver_path(driver),
+          method: "get", class: "button"
+      %>
+      <%= button_to "Delete", driver_path(driver),
+          method: :delete, class: "button",
+          data: {confirm: "Are you sure?"}
+      %>
+    </li>
+  <% end %>
+</ul>
+<h3>Select an action</h3>
+<ul>
+  <li>
+    <%= button_to "Add New Driver", new_driver_path,
+      method: "get", class: "button"
+    %>
+  </li>
+</ul>
