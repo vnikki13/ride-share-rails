@@ -4,6 +4,13 @@
   <li>Name: <%= @driver.name %></li>
   <li>VIN: <%= @driver.vin %></li>
   <li>Available: <%= @driver.available %></li>
+  <li>Average Rating: <%= @driver.avg_rating %></li>
+  <li>Total Earnings: <%= @driver.total_earnings %></li>
+  <li>
+    Trip Dates: <% @driver.all_trips.each do |trip| %>
+    <%= link_to "#{trip.date}", trip_path(trip.id) %> /
+    <% end %>
+  </li>
 </ul>
 
 <h3>Select an action</h3>

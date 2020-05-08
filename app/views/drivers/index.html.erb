@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <h3>Drivers</h3>
 
 <ul>
@@ -69,8 +68,8 @@
       <td><%= driver.name %></td>
       <td><%= driver.vin %></td>
       <td><%= driver.available %></td>
-      <td>Avg rating logic</td>
-      <td>Total earnings logic</td>
+      <td><%= driver.avg_rating %></td>
+      <td>$<%= driver.total_earnings %></td>
       <td>
         <% Trip.where(driver_id: driver.id).each do |trip| %>
           <%= trip.date %>
