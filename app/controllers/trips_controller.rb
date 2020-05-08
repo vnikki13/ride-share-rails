@@ -22,11 +22,11 @@ class TripsController < ApplicationController
   end
 
   def update
-    @trip = Driver.find_by(id: params[:id])
+    @trip = Trip.find_by(id: params[:id])
     if @trip.nil?
       redirect_to trip_path
     elsif @trip.update(trip_params)
-      redirect_to trip_path(@tirp.id)
+      redirect_to trip_path(@trip.id)
     else
       render :edit
     end
