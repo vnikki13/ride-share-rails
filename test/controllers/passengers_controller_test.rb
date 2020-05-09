@@ -4,7 +4,7 @@ describe PassengersController do
   # Note: If any of these tests have names that conflict with either the requirements or your team's decisions, feel empowered to change the test names. For example, if a given test name says "responds with 404" but your team's decision is to respond with redirect, please change the test name.
   let (:temp_passenger) {
     Passenger.create name: "sample passenger",
-                  phone_num: "1-800-555-1234"
+                  phone_num: "800-555-1234"
   }
 
   describe "index" do
@@ -73,7 +73,7 @@ describe PassengersController do
       passenger_hash = {
         passenger: {
           name: "new passenger",
-          phone_num: "1-888-555-4321"
+          phone_num: "888-555-4321"
         },
       }
       
@@ -96,22 +96,59 @@ describe PassengersController do
       # Assert
       # Check that the controller redirected the user
       must_redirect_to passenger_path(new_passenger.id)
-
     end
 
-    it "does not create a passenger if the form data violates Passenger validations, and responds with a redirect" do
-      skip
-      # Note: This will not pass until ActiveRecord Validations lesson
+    it "does not create a passenger if the form data violates Passenger validations, name is empty" do
       # Arrange
       # Set up the form data so that it violates Passenger validations
-
+      passenger_hash = {
+        passenger: {
+          name: "",
+          phone_num: "888-555-4321"
+        },
+      }
+      
       # Act-Assert
       # Ensure that there is no change in Passenger.count
-
-      # Assert
-      # Check that the controller redirects
-
+      expect {
+        post passengers_path, params: passenger_hash
+      }.must_differ "Passenger.count", 0
     end
+
+    it "does not create a passenger if the form data violates Passenger validations, phone is empty" do
+      # Arrange
+      # Set up the form data so that it violates Passenger validations
+      passenger_hash = {
+        passenger: {
+          name: "New passenger",
+          phone_num: ""
+        },
+      }
+      
+      # Act-Assert
+      # Ensure that there is no change in Passenger.count
+      expect {
+        post passengers_path, params: passenger_hash
+      }.must_differ "Passenger.count", 0
+    end
+    
+    it "does not create a passenger if the form data violates Passenger validations, bad phone number" do
+      # Arrange
+      # Set up the form data so that it violates Passenger validations
+      passenger_hash = {
+        passenger: {
+          name: "New passenger",
+          phone_num: "xxx-xxx-xxxx"
+        },
+      }
+      
+      # Act-Assert
+      # Ensure that there is no change in Passenger.count
+      expect {
+        post passengers_path, params: passenger_hash
+      }.must_differ "Passenger.count", 0
+    end
+    
   end
   
   describe "edit" do
@@ -143,14 +180,14 @@ describe PassengersController do
       # Ensure there is an existing passenger saved
       # Assign the existing passenger's id to a local variable
       existing_passenger = Passenger.create(name: "Old passenger",
-                                      phone_num: "1-888-555-6789"
+                                      phone_num: "888-555-6789"
       )
       
       # Set up the form data
       passenger_hash = {
         passenger: {
           name: "new passenger",
-          phone_num: "1-888-555-9876"
+          phone_num: "888-555-9876"
         },
       }
       # Act-Assert
@@ -178,7 +215,7 @@ describe PassengersController do
       passenger_hash = {
         passenger: {
           name: "new passenger",
-          phone_num: "1-888-555-9876"
+          phone_num: "888-555-9876"
         },
       }
 
@@ -194,21 +231,99 @@ describe PassengersController do
 
     end
 
-    it "does not create a passenger if the form data violates Passenger validations, and responds with a redirect" do
-      skip
-      # Note: This will not pass until ActiveRecord Validations lesson
+    it "does not update a passenger if the form data violates Passenger validations, name is empty" do
+
       # Arrange
       # Ensure there is an existing passenger saved
       # Assign the existing passenger's id to a local variable
-      # Set up the form data so that it violates Passenger validations
+      existing_passenger = Passenger.create(name: "Old passenger",
+        phone_num: "888-555-6789"
+      )
 
+      # Arrange
+      # Set up the form data so that it violates Passenger validations
+      passenger_hash = {
+        passenger: {
+          name: "",
+          phone_num: "888-555-4321"
+        },
+      }
+      
       # Act-Assert
       # Ensure that there is no change in Passenger.count
-
+      expect {
+        patch passenger_path(existing_passenger.id), params: passenger_hash
+      }.must_differ "Passenger.count", 0
+      
       # Assert
-      # Check that the controller redirects
-
+      # Find the updated Passenger and check that the name wasn't updated
+      updated_passenger = Passenger.find_by(id: existing_passenger.id)
+      expect(updated_passenger.name).wont_equal passenger_hash[:passenger][:name]
+      expect(updated_passenger.phone_num).wont_equal passenger_hash[:passenger][:phone_num]
     end
+
+    it "does not update a passenger if the form data violates Passenger validations, phone is empty" do
+
+      # Arrange
+      # Ensure there is an existing passenger saved
+      # Assign the existing passenger's id to a local variable
+      existing_passenger = Passenger.create(name: "Old passenger",
+        phone_num: "888-555-6789"
+      )
+
+      # Arrange
+      # Set up the form data so that it violates Passenger validations
+      passenger_hash = {
+        passenger: {
+          name: "Updated Passenger",
+          phone_num: ""
+        },
+      }
+      
+      # Act-Assert
+      # Ensure that there is no change in Passenger.count
+      expect {
+        patch passenger_path(existing_passenger.id), params: passenger_hash
+      }.must_differ "Passenger.count", 0
+      
+      # Assert
+      # Find the updated Passenger and check that the name wasn't updated
+      updated_passenger = Passenger.find_by(id: existing_passenger.id)
+      expect(updated_passenger.name).wont_equal passenger_hash[:passenger][:name]
+      expect(updated_passenger.phone_num).wont_equal passenger_hash[:passenger][:phone_num]
+    end
+    
+    it "does not update a passenger if the form data violates Passenger validations, phone is invalid" do
+
+      # Arrange
+      # Ensure there is an existing passenger saved
+      # Assign the existing passenger's id to a local variable
+      existing_passenger = Passenger.create(name: "Old passenger",
+        phone_num: "888-555-6789"
+      )
+
+      # Arrange
+      # Set up the form data so that it violates Passenger validations
+      passenger_hash = {
+        passenger: {
+          name: "Updated passenger",
+          phone_num: "xxx-xxx-xxxx"
+        },
+      }
+      
+      # Act-Assert
+      # Ensure that there is no change in Passenger.count
+      expect {
+        patch passenger_path(existing_passenger.id), params: passenger_hash
+      }.must_differ "Passenger.count", 0
+      
+      # Assert
+      # Find the updated Passenger and check that the name wasn't updated
+      updated_passenger = Passenger.find_by(id: existing_passenger.id)
+      expect(updated_passenger.name).wont_equal passenger_hash[:passenger][:name]
+      expect(updated_passenger.phone_num).wont_equal passenger_hash[:passenger][:phone_num]
+    end
+
   end
 
   describe "destroy" do
@@ -218,7 +333,7 @@ describe PassengersController do
       # Ensure there is an existing passenger saved
       # Assign the existing passenger's id to a local variable
       existing_passenger = Passenger.create(name: "Old passenger",
-                                      phone_num: "1-888-555-5555"
+                                      phone_num: "888-555-5555"
       )
       
       # Act-Assert

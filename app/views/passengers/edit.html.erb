@@ -1,10 +1,12 @@
+<h1>Editing a Passenger</h1>
+
 <% if @passenger.errors.any? %>
-  <ul>
-  <%@passenger.errors.each do |column, message| %>
-    <li>
-    <%= column %> <%= message %>
-    </li>
-  <% end %>
+  <ul class="errors">
+    <% @passenger.errors.each do |column, message| %>
+      <li>
+        <strong><%= column.capitalize %></strong> <%= message %>
+      </li>
+    <% end %>
   </ul>
 <% end %>
 
