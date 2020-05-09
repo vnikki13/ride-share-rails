@@ -8,7 +8,10 @@ class PassengersController < ApplicationController
     # shows individual passenger details
     def show
       @passenger = Passenger.find_by(id: params[:id])
-      redirect_to passengers_path if @passenger.nil?
+      if @passenger.nil?
+        head :not_found
+        return
+      end
     end
   
     # creates a form
@@ -19,7 +22,7 @@ class PassengersController < ApplicationController
     # form submit button calls this
     def create
       @passenger = Passenger.new(
-        id: Passenger.maximum(:id).next, # calculate next available id
+        id: Passenger.maximum(:id) ? Passenger.maximum(:id).next : 1,
         name: params[:passenger][:name],
         phone_num: params[:passenger][:phone_num],
       )
@@ -33,14 +36,18 @@ class PassengersController < ApplicationController
     # prepares the passenger data to edit it
     def edit
       @passenger = Passenger.find_by(id: params[:id])
-      redirect_to passengers_path if @passenger.nil?
+      if @passenger.nil?
+        head :not_found
+        return
+      end
     end
   
     # updates the passenger with the data from the form
     def update
       @passenger = Passenger.find_by(id: params[:id])
       if @passenger.nil?
-        redirect_to passengers_path
+        head :not_found
+        return
       elsif @passenger.update(
           name: params[:passenger][:name],
           phone_num: params[:passenger][:phone_num],
@@ -54,9 +61,12 @@ class PassengersController < ApplicationController
     # deletes a passenger
     def destroy
       @passenger = Passenger.find_by(id: params[:id])
-      @passenger.destroy unless @passenger.nil?
+      if @passenger.nil?
+        head :not_found
+        return
+      end
+      @passenger.destroy
       redirect_to passengers_path
     end
   
-
 end
