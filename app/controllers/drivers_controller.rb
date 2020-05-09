@@ -1,41 +1,75 @@
 class DriversController < ApplicationController
 
-  # shows list of drivers
-  def index
-    @drivers = Driver.all.sort
-  end
-
-  # shows individual driver details
-  def show
-    @driver = Driver.find_by(id: params[:id])
-    redirect_to drivers_path if @driver.nil?
-  end
-
-  # creates a form
-  def new 
-    @driver = Driver.new
-  end
+    # shows list of drivers
+    def index
+      @drivers = Driver.all.sort
+    end
   
-  # form submit button calls this
-  def create
-    @driver = Driver.new(driver_params)
-    if @driver.save
-      redirect_to driver_path(@driver.id)
-    else
-      render :new
+    # shows individual driver details
+    def show
+      @driver = Driver.find_by(id: params[:id])
+      if @driver.nil?
+        head :not_found
+        return
+      end
+      # redirect_to drivers_path if @driver.nil?
+    end
+  
+    # creates a form
+    def new 
+      @driver = Driver.new
+    end
+    
+    # form submit button calls this
+    def create
+      @driver = Driver.new(
+        id: Driver.maximum(:id) ? Driver.maximum(:id).next : 1,
+        name: params[:driver][:name],
+        vin: params[:driver][:vin],
+        available: params[:driver][:available]
+      )
+      if @driver.save
+        redirect_to driver_path(@driver.id)
+      else
+        render :new
+      end
+    end
+    
+    # prepares the driver data to edit it
+    def edit
+      @driver = Driver.find_by(id: params[:id])
+      if @driver.nil?
+        head :not_found
+        return
+      end
+    end
+  
+    # updates the driver with the data from the form
+    def update
+      @driver = Driver.find_by(id: params[:id])
+      if @driver.nil?
+        head :not_found
+        return
+      elsif @driver.update(
+          name: params[:driver][:name],
+          vin: params[:driver][:vin],
+          available: params[:driver][:available]
+        )
+        redirect_to driver_path(@driver.id)
+      else
+        render :edit
+      end
     end
   end
   
-  # prepares the driver data to edit it
-  def edit
-    @driver = Driver.find_by(id: params[:id])
-    redirect_to drivers_path if @driver.nil?
-  end
-
-  # updates the driver with the data from the form
-  def update
-    @driver = Driver.find_by(id: params[:id])
-    if @driver.nil?
+    # deletes a driver
+    def destroy
+      @driver = Driver.find_by(id: params[:id])
+      if @driver.nil?
+        head :not_found
+        return
+      end
+      @driver.destroy
       redirect_to drivers_path
     elsif @driver.update(driver_params)
       redirect_to driver_path(@driver.id)
