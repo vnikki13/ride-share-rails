@@ -1,10 +1,21 @@
 <h1>Edit Trip</h1>
+
+<% if @trip.errors.any? %>
+  <ul>
+  <%@trip.errors.each do |column, message| %>
+    <li>
+    <%= column %> <%= message %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
 <%= form_with model: @trip, class: 'edit-trip' do |f| %>
   <p>Please update the data for the trip:</p>
   <table>
   <tr>
-  <td><%= f.label :date%></td>
-  <td><%= f.text_field :date %></td>
+  <td><%= f.label :date %></td>
+  <td><%= f.date_field :date %></td>
   </tr>
 
   <tr>
@@ -19,12 +30,12 @@
 
   <tr>
   <td><%= f.label :passenger_id %></td>
-  <td><%= f.text_field :passenger_id %></td>
+  <td><%= f.select :passenger_id, Passenger.all.map{ |auth| [auth.name, auth.id] } %></td>
   </tr>
 
   <tr>
   <td><%= f.label :driver_id %></td>
-  <td><%= f.text_field :driver_id %></td>
+  <td><%= f.select :driver_id, Driver.all.map{ |auth| [auth.name, auth.id] } %></td>
   </tr>
   </table>
   <%= f.submit "Save Trip", class: "button" %>

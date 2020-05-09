@@ -9,10 +9,10 @@ class Passenger < ApplicationRecord
   end
 
   def total_cost
-    cost = all_trips.map do |trip|
+    costs = all_trips.map do |trip|
       trip.cost
     end
 
-    return cost.sum
+    return costs
   end
 end

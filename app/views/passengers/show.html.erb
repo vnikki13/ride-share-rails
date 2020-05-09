@@ -9,10 +9,11 @@
       No Trips
     <% else %>
       <% @passenger.all_trips.each do |trip| %>
-      <%= link_to "#{trip.date}", trip_path(trip.id) %> /
+        <%= link_to "#{trip.date}", trip_path(trip.id) %> /
       <% end %>
     <% end %>
   </li>
+  <li><%= link_to "Trip Detail's", passenger_trips_path(@passenger.id) %></li>
 </ul>
 
 <h3>Select an action</h3>
@@ -23,7 +24,7 @@
     method: :delete, class: "button",
     data: {confirm: "Are you sure?"}
 %>
-<%= button_to "New Trip", new_trip_path,
-    method: "get", class: "button"
+<%= button_to "Add Trip", new_passenger_trip_path(@passenger.id),
+  method: :get, class: 'button'
 %>
  

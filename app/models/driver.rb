@@ -12,7 +12,12 @@ class Driver < ApplicationRecord
   def avg_rating
     trips_for_driver = all_trips
     ratings = Array.new
-    trips_for_driver.each { |trip| ratings << trip.rating }
+    trips_for_driver.each do |trip| 
+      if !trip.rating.nil?
+        ratings << trip.rating 
+      end
+    end
+
     if ratings.length == 0
       return 'No ratings'
     else

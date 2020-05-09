@@ -1,6 +1,14 @@
 <h1>Creating a New Driver</h1>
 
-<p>As a user, when I fill out any form in the site and the processing of the form submission fails, I want to be politely informed of what went wrong and how I can correct it</p>
+<% if @driver.errors.any? %>
+  <ul>
+  <%@driver.errors.each do |column, message| %>
+    <li>
+    <%= column %> <%= message %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
 
 <%= form_with model: @driver, class: 'create-driver' do |f| %>
   <p>Please enter the data for the driver:</p>

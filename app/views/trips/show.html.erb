@@ -1,9 +1,16 @@
 <h1>Showing Trips details</h1>
 
 <ul>
-  <li>Assign a rating(1-5) If it doesn't already exist</li>
   <li>Passenger: <%= @trip.passenger.name %></li>
+  <li>Price: <%= @trip.cost %></li>
   <li>Driver: <%= @trip.driver.name %></li>
+  <li>
+    <% if @trip.rating.nil? %>
+      <p>Select Rating <%= select_tag 'rating', options_for_select([1, 2, 3, 4, 5])%> </p>
+    <% else %>
+      <p>Rating: <%= @trip.rating %></p>
+    <% end %>
+  </li>
   <%= button_to "Edit", edit_trip_path(@trip),
     method: "get", class: "button"
   %>

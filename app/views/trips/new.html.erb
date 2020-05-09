@@ -1,1 +1,27 @@
 <h1>Creating a New Trip</h1>
+
+<% if @trip.errors.any? %>
+  <ul>
+  <%@trip.errors.each do |column, message| %>
+    <li>
+    <%= column %> <%= message %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @trip, class: 'create-trip' do |f| %>
+  <p>Please enter the data for the trip:</p>
+  <table>
+    <tr>
+      <td><%= f.label :date %></td>
+      <td><%= f.date_field :date %></td>
+    </tr>
+
+    <tr>
+      <td><%= f.label :passenger_id %></td>
+      <td><%= f.select :passenger_id, Passenger.all.map{ |auth| [auth.name, auth.id] } %></td>
+    </tr>
+  </table>
+  <%= f.submit "Save", class: "button" %>
+<% end %>

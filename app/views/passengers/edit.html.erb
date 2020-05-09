@@ -1,3 +1,13 @@
+<% if @passenger.errors.any? %>
+  <ul>
+  <%@passenger.errors.each do |column, message| %>
+    <li>
+    <%= column %> <%= message %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
 <%= form_with model: @passenger, class: 'edit-passenger' do |f| %>
   <p>Please update the data for the passenger:</p>
   <table>
