@@ -3,6 +3,16 @@
   <li>Id: <%= @passenger.id %></li>
   <li>Name: <%= @passenger.name %></li>
   <li>Phone Number: <%= @passenger.phone_num %></li>
+  <li>Total Charges: $<%= @passenger.total_cost%></li>
+  <li>Trip Dates: 
+    <% if @passenger.all_trips.empty? %>
+      No Trips
+    <% else %>
+      <% @passenger.all_trips.each do |trip| %>
+      <%= link_to "#{trip.date}", trip_path(trip.id) %> /
+      <% end %>
+    <% end %>
+  </li>
 </ul>
 
 <h3>Select an action</h3>
@@ -13,7 +23,7 @@
     method: :delete, class: "button",
     data: {confirm: "Are you sure?"}
 %>
-<%= button_to "Return to Passenger List", passengers_path,
+<%= button_to "New Trip", new_trip_path,
     method: "get", class: "button"
 %>
-
+ 

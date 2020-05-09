@@ -21,10 +21,8 @@ class Driver < ApplicationRecord
   end
 
   def total_earnings
-    trips_for_driver = all_trips
-    earnings = Array.new
-    trips_for_driver.each do |trip|
-      earnings << (trip.cost - 1.65) * 0.8
+    earnings = all_trips.map do |trip|
+      (trip.cost - 1.65) * 0.8
     end
      return earnings.sum.round(2)
   end
