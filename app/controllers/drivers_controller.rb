@@ -8,7 +8,11 @@ class DriversController < ApplicationController
     # shows individual driver details
     def show
       @driver = Driver.find_by(id: params[:id])
-      redirect_to drivers_path if @driver.nil?
+      if @driver.nil?
+        head :not_found
+        return
+      end
+      # redirect_to drivers_path if @driver.nil?
     end
   
     # creates a form
@@ -19,7 +23,7 @@ class DriversController < ApplicationController
     # form submit button calls this
     def create
       @driver = Driver.new(
-        id: Driver.maximum(:id).next, # calculate next available id
+        id: Driver.maximum(:id) ? Driver.maximum(:id).next : 1,
         name: params[:driver][:name],
         vin: params[:driver][:vin],
         available: params[:driver][:available]
@@ -34,14 +38,18 @@ class DriversController < ApplicationController
     # prepares the driver data to edit it
     def edit
       @driver = Driver.find_by(id: params[:id])
-      redirect_to drivers_path if @driver.nil?
+      if @driver.nil?
+        head :not_found
+        return
+      end
     end
   
     # updates the driver with the data from the form
     def update
       @driver = Driver.find_by(id: params[:id])
       if @driver.nil?
-        redirect_to drivers_path
+        head :not_found
+        return
       elsif @driver.update(
           name: params[:driver][:name],
           vin: params[:driver][:vin],
@@ -56,7 +64,11 @@ class DriversController < ApplicationController
     # deletes a driver
     def destroy
       @driver = Driver.find_by(id: params[:id])
-      @driver.destroy unless @driver.nil?
+      if @driver.nil?
+        head :not_found
+        return
+      end
+      @driver.destroy
       redirect_to drivers_path
     end
  
