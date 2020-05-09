@@ -4,7 +4,6 @@ class Driver < ApplicationRecord
   validates :name, presence: true
   validates :vin, uniqueness: true
 
-
   def all_trips
     trips_for_driver = self.trips.where(driver_id: self.id)
   end

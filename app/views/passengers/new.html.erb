@@ -2,6 +2,16 @@
 
 <p>I want to see errors and validations that show that a passenger must be provided a name and a phone number, so that I cannot make a passenger without name or phone number</p>
 
+<% if @passenger.errors.any? %>
+  <ul class="errors">
+    <% @passenger.errors.each do |column, message| %>
+      <li>
+        <strong><%= column.capitalize %></strong> <%= message %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= form_with model: @passenger, class: 'create-passenger' do |f| %>
   <p>Please enter the data for the passenger:</p>
   <table>
