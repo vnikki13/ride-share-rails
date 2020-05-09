@@ -102,19 +102,48 @@ describe DriversController do
 
     end
 
-    it "does not create a driver if the form data violates Driver validations, and responds with a redirect" do
-      skip
-      # Note: This will not pass until ActiveRecord Validations lesson
+    it "does not create a driver if the form data violates Driver validations, name is empty" do
       # Arrange
       # Set up the form data so that it violates Driver validations
-
+      driver_hash = {
+        driver: {
+          name: "",
+          vin: "12RCT6739277CDR",
+          available: true,
+        },
+      }
+      
       # Act-Assert
       # Ensure that there is no change in Driver.count
-
-      # Assert
-      # Check that the controller redirects
-
+      expect {
+        post drivers_path, params: driver_hash
+      }.must_differ "Driver.count", 0
     end
+
+    it "does not create a driver if the form data violates Driver validations, VIN is unique" do
+      # Arrange
+      # Ensure there is an existing driver saved
+      # Assign the existing driver's id to a local variable
+      existing_driver = Driver.create(name: "Old driver",
+        vin: "12345ABCD678",
+        available: true
+      )
+      # Set up the form data so that it violates Driver validations
+      driver_hash = {
+        driver: {
+          name: "New driver",
+          vin: "12345ABCD678",
+          available: true,
+        },
+      }
+      
+      # Act-Assert
+      # Ensure that there is no change in Driver.count
+      expect {
+        post drivers_path, params: driver_hash
+      }.must_differ "Driver.count", 0
+    end
+    
   end
   
   describe "edit" do
@@ -201,21 +230,79 @@ describe DriversController do
 
     end
 
-    it "does not create a driver if the form data violates Driver validations, and responds with a redirect" do
-      skip
-      # Note: This will not pass until ActiveRecord Validations lesson
+    it "does not update a driver if the form data violates Driver validations, name is empty" do
       # Arrange
       # Ensure there is an existing driver saved
       # Assign the existing driver's id to a local variable
-      # Set up the form data so that it violates Driver validations
+      existing_driver = Driver.create(name: "Old driver",
+        vin: "12345ABCD678",
+        available: true
+      )
 
+      # Arrange
+      # Set up the form data so that it violates Driver validations
+      driver_hash = {
+        driver: {
+          name: "",
+          vin: "12RCT6739277CDR",
+          available: false,
+        },
+      }
+      
       # Act-Assert
       # Ensure that there is no change in Driver.count
+      expect {
+        patch driver_path(existing_driver.id), params: driver_hash
+      }.must_differ "Driver.count", 0
 
       # Assert
-      # Check that the controller redirects
-
+      # Find the updated Driver and check that all its attributes
+      # match what was given in the form data
+      updated_driver = Driver.find_by(id: existing_driver.id)
+      expect(updated_driver.name).wont_equal driver_hash[:driver][:name]
+      expect(updated_driver.vin).wont_equal driver_hash[:driver][:vin]
+      expect(updated_driver.available).wont_equal driver_hash[:driver][:available]
     end
+
+    it "does not update a driver if the form data violates Driver validations, VIN is unique" do
+      # Arrange
+      # Ensure there is an existing driver saved
+      # Assign the existing driver's id to a local variable
+      first_driver = Driver.create(name: "First driver",
+        vin: "12345ABCD678",
+        available: true
+      )
+
+      second_driver = Driver.create(name: "Second driver",
+        vin: "8765DCBA4321",
+        available: true
+      )
+      
+      # Arrange
+      # Set up the form data so that it violates Driver validations
+      driver_hash = {
+        driver: {
+          name: "Updated second driver",
+          vin: "12345ABCD678", # this VIN is not unique
+          available: false,
+        },
+      }
+      
+      # Act-Assert
+      # Ensure that there is no change in Driver.count
+      expect {
+        patch driver_path(second_driver.id), params: driver_hash
+      }.must_differ "Driver.count", 0
+
+      # Assert
+      # Find the updated Driver and check that all its attributes
+      # match what was given in the form data
+      updated_driver = Driver.find_by(id: second_driver.id)
+      expect(updated_driver.name).wont_equal driver_hash[:driver][:name]
+      expect(updated_driver.vin).wont_equal driver_hash[:driver][:vin]
+      expect(updated_driver.available).wont_equal driver_hash[:driver][:available]
+    end
+    
   end
 
   describe "destroy" do
