@@ -1,16 +1,6 @@
 <h1>Creating a New Driver</h1>
 
 <% if @driver.errors.any? %>
-  <ul>
-  <%@driver.errors.each do |column, message| %>
-    <li>
-    <%= column %> <%= message %>
-    </li>
-  <% end %>
-  </ul>
-<% end %>
-
-<% if @driver.errors.any? %>
   <ul class="errors">
     <% @driver.errors.each do |column, message| %>
       <li>

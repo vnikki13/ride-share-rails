@@ -11,6 +11,10 @@ class TripsController < ApplicationController
 
   def show
     @trip = Trip.find_by(id: params[:id])
+    if @trip.nil?  # added check from tests (Suely)
+      head :not_found
+      return
+    end
   end
 
   def new
@@ -18,6 +22,10 @@ class TripsController < ApplicationController
       @trip = Trip.new
     else
       passenger = Passenger.find_by(id: params[:passenger_id])
+      if passenger.nil?  # added check from tests (Suely)
+        head :not_found
+        return
+      end 
       @passenger_name = passenger.name
       @trip = passenger.trips.new
     end
@@ -36,6 +44,10 @@ class TripsController < ApplicationController
 
   def edit
     @trip = Trip.find_by(id: params[:id])
+    if @trip.nil?  # added check from tests (Suely)
+      head :not_found
+      return
+    end
     redirect_to trip_path if @trip.nil?
   end
 
@@ -48,6 +60,17 @@ class TripsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy # added check from tests (Suely)
+    @trip = Trip.find_by(id: params[:id])
+    if @trip.nil?  
+      head :not_found
+      return
+    end
+
+    @trip.destroy 
+    redirect_to trips_path
   end
 
   private

@@ -1,16 +1,6 @@
 <h1>Creating a New Passenger</h1>
 
 <% if @passenger.errors.any? %>
-  <ul>
-  <%@passenger.errors.each do |column, message| %>
-    <li>
-    <%= column %> <%= message %>
-    </li>
-  <% end %>
-  </ul>
-<% end %>
-
-<% if @passenger.errors.any? %>
   <ul class="errors">
     <% @passenger.errors.each do |column, message| %>
       <li>
