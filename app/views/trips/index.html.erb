@@ -23,8 +23,8 @@
       <td><%= trip.date %></td>
       <td><%= trip.rating %></td>
       <td>$<%= trip.cost %></td>
-      <td><%= trip.driver_id %></td>
-      <td><%= trip.passenger_id %></td>
+      <td><%= trip.driver.name %></td>
+      <td><%= trip.passenger.name %></td>
     </tr>
     <% end %>
   </tbody>
