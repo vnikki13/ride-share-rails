@@ -5,7 +5,7 @@
   <li>VIN: <%= @driver.vin %></li>
   <li>Available: <%= @driver.available %></li>
   <li>Average Rating: <%= @driver.avg_rating %></li>
-  <li>Total Earnings: $<%=  %></li>
+  <li>Total Earnings: $<%= @driver.total_earnings %></li>
   <li>Trip Dates: 
     <% if @driver.all_trips.empty? %>
       No Trips

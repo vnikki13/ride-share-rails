@@ -21,12 +21,8 @@ class DriversController < ApplicationController
     
   # form submit button calls this
   def create
-    @driver = Driver.new(
-      id: Driver.maximum(:id) ? Driver.maximum(:id).next : 1,
-      name: params[:driver][:name],
-      vin: params[:driver][:vin],
-      available: params[:driver][:available]
-    )
+    @driver = Driver.new(driver_params)
+    @driver.available = true
     if @driver.save
       redirect_to driver_path(@driver.id)
     else
