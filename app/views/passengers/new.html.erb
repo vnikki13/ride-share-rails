@@ -13,15 +13,15 @@
 <%= form_with model: @passenger, class: 'create-passenger' do |f| %>
   <p>Please enter the data for the passenger:</p>
   <table>
-  <tr>
-  <td><%= f.label :name %></td>
-  <td><%= f.text_field :name %></td>
-  </tr>
+    <tr>
+      <td><%= f.label :name %></td>
+      <td><%= f.text_field :name %></td>
+    </tr>
 
-  <tr>
-  <td><%= f.label :phone_num %></td>
-  <td><%= f.text_field :phone_num %></td>
-  </tr>
+    <tr>
+      <td><%= f.label :phone_num %></td>
+      <td><%= f.text_field :phone_num %></td>
+    </tr>
 
   </table>
   <%= f.submit "Save Passenger", class: "button" %>

@@ -13,20 +13,15 @@
 <%= form_with model: @driver, class: 'create-driver' do |f| %>
   <p>Please enter the data for the driver:</p>
   <table>
-  <tr>
-  <td><%= f.label :name %></td>
-  <td><%= f.text_field :name %></td>
-  </tr>
+    <tr>
+      <td><%= f.label :name %></td>
+      <td><%= f.text_field :name %></td>
+    </tr>
 
-  <tr>
-  <td><%= f.label :vin %></td>
-  <td><%= f.text_field :vin %></td>
-  </tr>
-
-  <tr>
-  <td><%= f.label :available %></td>
-  <td><%= f.check_box :available %></td>
-  </tr>
+    <tr>
+      <td><%= f.label :vin %></td>
+      <td><%= f.text_field :vin %></td>
+    </tr>
   </table>
   <%= f.submit "Save Driver", class: "button" %>
 <% end %>
