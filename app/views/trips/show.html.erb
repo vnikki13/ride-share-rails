@@ -1,8 +1,20 @@
 <h1>Showing Trips details</h1>
 
 <ul>
-  <li>Driver: <%= link_to @trip.driver.name, driver_path(@trip.driver.id)%></li>
-  <li>Passenger: <%= link_to @trip.passenger.name, passenger_path(@trip.passenger.id)%></li>
+  <li>Driver: 
+    <% if @trip.driver.nil? %>
+      Unknown Driver
+    <% else %>
+      <%= link_to @trip.driver.name, driver_path(@trip.driver.id)%>
+    <% end %>
+  </li>
+  <li>Passenger: 
+    <% if @trip.passenger.nil? %>
+      Unknown Passenger
+    <% else %>
+      <%= link_to @trip.passenger.name, passenger_path(@trip.passenger.id)%>
+    <% end %>
+  </li>
   <li>Price: <%= @trip.cost %></li>
   <li>
     <% if @trip.rating.nil? %>
