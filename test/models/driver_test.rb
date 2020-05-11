@@ -4,18 +4,21 @@ describe Driver do
   let (:new_driver) {
     Driver.new(name: "Kari", vin: "123", available: true)
   }
-  it "can be instantiated" do
-    # Assert
-    expect(new_driver.valid?).must_equal true
-  end
 
-  it "will have the required fields" do
-    # Arrange
-    new_driver.save
-    driver = Driver.first
-    [:name, :vin, :available].each do |field|
+  describe "basic tests" do
+    it "can be instantiated" do
       # Assert
-      expect(driver).must_respond_to field
+      expect(new_driver.valid?).must_equal true
+    end
+
+    it "will have the required fields" do
+      # Arrange
+      new_driver.save
+      driver = Driver.first
+      [:name, :vin, :available].each do |field|
+        # Assert
+        expect(driver).must_respond_to field
+      end
     end
   end
 
@@ -76,10 +79,12 @@ describe Driver do
         # Arrange
         new_driver.save
         new_passenger = Passenger.create(name: "Kari", phone_num: "111-111-1211")
+        new_passenger.save
         # Assert - No trips
         expect(new_driver.avg_rating).must_be_nil
         # Act and Assert - 1 trip
         trip_1 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, rating: 5)
+        trip_1.save
         expect(new_driver.avg_rating).must_equal 5
         # Act and Assert - 2 trips
         trip_2 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, rating: 3)
@@ -91,10 +96,12 @@ describe Driver do
         # Arrange
         new_driver.save
         new_passenger = Passenger.create(name: "Kari", phone_num: "111-111-1211")
+        new_passenger.save
         # Assert - No trips
-        expect(new_driver.avg_rating).must_be_nil
+        expect(new_driver.total_earnings).must_equal 0
         # Act and Assert - 1 trip
         trip_1 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, cost: 200)
+        trip_1.save
         earnings = (200 - 1.65) * 0.8
         expect(new_driver.total_earnings).must_be_close_to earnings, 0.01
         # Act and Assert - 2 trips
@@ -111,6 +118,6 @@ describe Driver do
     describe "can go offline" do # Method missing from model (Suely)
       # Your code here
     end
-    
+
   end
 end

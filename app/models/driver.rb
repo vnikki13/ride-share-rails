@@ -2,8 +2,8 @@ class Driver < ApplicationRecord
   has_many :trips
 
   validates :name, presence: true
-  validates :vin, presence: true # added to pass the model test (Suely)
-  validates :vin, uniqueness: true
+  validates :vin, uniqueness: true, presence: true # added presence to pass the model test (Suely)
+
 
   def all_trips
     trips_for_driver = self.trips.where(driver_id: self.id)

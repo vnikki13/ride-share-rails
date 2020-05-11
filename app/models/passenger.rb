@@ -13,6 +13,6 @@ class Passenger < ApplicationRecord
       trip.cost
     end
 
-    return costs
+    return costs.sum # added .sum to pass the test (Suely)
   end
 end

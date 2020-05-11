@@ -4,19 +4,22 @@ describe Passenger do
   let (:new_passenger) {
     Passenger.new(name: "Kari", phone_num: "111-111-1211")
   }
-  it "can be instantiated" do
-    # Assert
-    expect(new_passenger.valid?).must_equal true
-  end
 
-  it "will have the required fields" do
-    # Arrange
-    new_passenger.save
-    passenger = Passenger.first
-    [:name, :phone_num].each do |field|
-
+  describe "basic tests" do
+    it "can be instantiated" do
       # Assert
-      expect(passenger).must_respond_to field
+      expect(new_passenger.valid?).must_equal true
+    end
+
+    it "will have the required fields" do
+      # Arrange
+      new_passenger.save
+      passenger = Passenger.first
+      [:name, :phone_num].each do |field|
+
+        # Assert
+        expect(passenger).must_respond_to field
+      end
     end
   end
 
@@ -27,7 +30,6 @@ describe Passenger do
       new_driver = Driver.create(name: "Waldo", vin: "ALWSS52P9NEYLVDE9")
       trip_1 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, rating: 5, cost: 1234)
       trip_2 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, rating: 3, cost: 6334)
-​
       # Assert
       expect(new_passenger.trips.count).must_equal 2
       new_passenger.trips.each do |trip|
@@ -54,19 +56,35 @@ describe Passenger do
       # Assert
       expect(new_passenger.valid?).must_equal false
       expect(new_passenger.errors.messages).must_include :phone_num
-      expect(new_passenger.errors.messages[:phone_num]).must_equal ["can't be blank"]
+      expect(new_passenger.errors.messages[:phone_num]).must_equal ["can't be blank", "is invalid"]
     end
+
+    it "must have a valid phone number" do
+      # Arrange
+      new_passenger.phone_num = "xxx-xxx-xxxx"
+
+      # Assert
+      expect(new_passenger.valid?).must_equal false
+      expect(new_passenger.errors.messages).must_include :phone_num
+      expect(new_passenger.errors.messages[:phone_num]).must_equal ["is invalid"]
+    end
+    
   end
-
-  # Tests for methods you create should go here
-  describe "custom methods" do
-    describe "request a ride" do
-      # Your code here
+  describe "total cost" do
+    it "calculates the total cost" do
+      # Arrange
+      new_passenger.save
+      new_driver = Driver.create(name: "Waldo", vin: "ALWSS52P9NEYLVDE9")
+      # Assert - No trips
+      expect(new_passenger.total_cost).must_equal 0
+      # Act and Assert - 1 trip
+      trip_1 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, cost: 200)
+      cost = 200
+      expect(new_passenger.total_cost).must_be_close_to cost, 0.01
+      # Act and Assert - 2 trips
+      trip_2 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, cost: 100)
+      cost += 100
+      expect(new_passenger.total_cost).must_be_close_to cost, 0.01
     end
-
-    describe "complete trip" do
-      # Your code here
-    end
-    # You may have additional methods to test here
   end
 end
