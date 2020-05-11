@@ -2,7 +2,7 @@ class Driver < ApplicationRecord
   has_many :trips
 
   validates :name, presence: true
-  validates :vin, presence: true
+  validates :vin, presence: true # added to pass the model test (Suely)
   validates :vin, uniqueness: true
 
   def all_trips
@@ -19,7 +19,7 @@ class Driver < ApplicationRecord
     end
 
     if ratings.length == 0
-      return 'No ratings'
+      return nil
     else
       return ratings.sum / ratings.length
     end

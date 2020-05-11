@@ -4,8 +4,8 @@
   <li>Name: <%= @driver.name %></li>
   <li>VIN: <%= @driver.vin %></li>
   <li>Available: <%= @driver.available %></li>
-  <li>Average Rating: <%= @driver.avg_rating %></li>
   <li>Total Earnings: $<%= @driver.total_earnings %></li>
+  <li>Average Rating: <%= @driver.avg_rating.nil? ? "No ratings" : @driver.avg_rating %></li> <%# added to pass the test (Suely) %>
   <li>Trip Dates: 
     <% if @driver.all_trips.empty? %>
       No Trips
