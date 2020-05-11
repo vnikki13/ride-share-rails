@@ -21,7 +21,7 @@
         <li><%= link_to 'Delete', trip_path(trip.id), method: :destroy %></li>
       </td>
       <td><%= trip.date %></td>
-      <td><%= trip.rating %></td>
+      <td><%= trip.rating ? trip.rating : "No Rating"%></td>
       <td>$<%= trip.cost %></td>
       <td><%= trip.driver.name %></td>
       <td><%= trip.passenger.name %></td>
