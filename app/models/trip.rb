@@ -5,8 +5,8 @@ class Trip < ApplicationRecord
   validates :date, presence: true
 
   def select_driver
-    available = Driver.select{ |driver| driver.available }
-    rand_driver = available.sample
+    available_list = Driver.select{ |driver| driver.available } # renamed available to available_list for clarity (Suely)
+    rand_driver = available_list.sample
     rand_driver.available = false
     rand_driver.save
     self.driver_id = rand_driver.id
