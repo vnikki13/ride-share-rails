@@ -1,11 +1,12 @@
-<h3>Driver Details</h3>
+<h1>Driver Details</h1>
+
 <ul>
   <li>Id: <%= @driver.id %></li>
   <li>Name: <%= @driver.name %></li>
   <li>VIN: <%= @driver.vin %></li>
   <li>Available: <%= @driver.available %></li>
+  <li>Total Earnings: $<%= @driver.total_earnings %></li>
   <li>Average Rating: <%= @driver.avg_rating.nil? ? "No ratings" : @driver.avg_rating %></li> <%# added to pass the test (Suely) %>
-  <li>Total Earnings: $<%=  %></li>
   <li>Trip Dates: 
     <% if @driver.all_trips.empty? %>
       No Trips

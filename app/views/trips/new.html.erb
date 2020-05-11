@@ -1,27 +1,32 @@
 <h1>Creating a New Trip</h1>
 
 <% if @trip.errors.any? %>
-  <ul>
-  <%@trip.errors.each do |column, message| %>
-    <li>
-    <%= column %> <%= message %>
-    </li>
-  <% end %>
+  <ul class='errors'>
+    <% @trip.errors.each do |column, message| %>
+      <li>
+      <strong><%= column.capitalize %></strong> <%= message %>
+      </li>
+    <% end %>
   </ul>
 <% end %>
 
-<%= form_with model: @trip, class: 'create-trip' do |f| %>
-  <p>Please enter the data for the trip:</p>
-  <table>
-    <tr>
-      <td><%= f.label :date %></td>
-      <td><%= f.date_field :date %></td>
-    </tr>
+<div class='row'>
+  <div class='col-md-4'>
+    <%= form_with model: @trip, class: 'form-horizontal' do |f| %>
+      <p>Please enter the data for the trip:</p>
+      <div class='form-group'>
+        <%= f.label :date, class: 'control-label'%>
+        <%= f.date_field :date, class: 'form-control' %>
+      </div>
 
-    <tr>
-      <td><%= f.label :passenger_id %></td>
-      <td><%= f.select :passenger_id, Passenger.all.map{ |auth| [auth.name, auth.id] } %></td>
-    </tr>
-  </table>
-  <%= f.submit "Save", class: "button" %>
-<% end %>
+      <div class='form-group'>
+        <%= f.label :passenger_id, class: 'control-label' %>
+        <%= f.select :passenger_id, Passenger.all.map{ |auth| [auth.name, auth.id] } %>
+      </div>
+
+      <div class='form-group'>
+        <%= f.submit "Save", class: "button" %>
+      </div>
+    <% end %>
+  </div>
+</div>
