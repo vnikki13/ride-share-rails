@@ -21,11 +21,7 @@ class PassengersController < ApplicationController
       
   # form submit button calls this
   def create
-    @passenger = Passenger.new(
-      id: Passenger.maximum(:id) ? Passenger.maximum(:id).next : 1,
-      name: params[:passenger][:name],
-      phone_num: params[:passenger][:phone_num],
-    )
+    @passenger = Passenger.new(passenger_params)
     if @passenger.save
       redirect_to passenger_path(@passenger.id)
     else
@@ -48,10 +44,7 @@ class PassengersController < ApplicationController
     if @passenger.nil?
       head :not_found
       return
-    elsif @passenger.update(
-        name: params[:passenger][:name],
-        phone_num: params[:passenger][:phone_num],
-      )
+    elsif @passenger.update(passenger_params)
       redirect_to passenger_path(@passenger.id)
     else
       render :edit
@@ -67,6 +60,12 @@ class PassengersController < ApplicationController
     end
     @passenger.destroy
     redirect_to passengers_path
+  end
+
+  private
+
+  def passenger_params
+    return params.require(:passenger).permit(:name, :phone_num)
   end
   
 end
