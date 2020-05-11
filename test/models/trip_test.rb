@@ -76,10 +76,13 @@ describe Trip do
 
       # Act
       new_trip.select_driver
+      driver = Driver.find(new_trip.driver_id)
 
       # Assert
+      # p new_driver
+      p new_trip
       expect(new_trip.driver_id).must_equal new_driver.id
-      expect(new_driver.available).must_equal false
+      expect(driver.available).must_equal false
     end
   end
 end
