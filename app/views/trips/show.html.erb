@@ -15,7 +15,7 @@
       <%= link_to @trip.passenger.name, passenger_path(@trip.passenger.id)%>
     <% end %>
   </li>
-  <li>Price: <%= @trip.cost %></li>
+  <li>Price: $<%= @trip.cost %></li>
   <li>
     <% if @trip.rating.nil? %>
       <p>Select Rating <%= select_tag 'rating', options_for_select([1, 2, 3, 4, 5])%> </p>
