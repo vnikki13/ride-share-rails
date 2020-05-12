@@ -6,17 +6,17 @@
   <li>VIN: <%= @driver.vin %></li>
   <li>Available: <%= @driver.available %></li>
   <li>Total Earnings: $<%= @driver.total_earnings %></li>
-  <li>Average Rating: <%= @driver.avg_rating.nil? ? "No ratings" : @driver.avg_rating %></li> <%# added to pass the test (Suely) %>
+  <li>Average Rating: <%= @driver.avg_rating.nil? ? "No ratings" : @driver.avg_rating %></li>
   <li>Trip Dates: 
-    <% if @driver.all_trips.empty? %>
+    <% if @driver.trips.empty? %>
       No Trips
     <% else %>
-      <% @driver.all_trips.each do |trip| %>
+      <% @driver.trips.each do |trip| %>
       <%= link_to "#{trip.date}", trip_path(trip.id) %> /
       <% end %>
     <% end %>
   </li>
-  <li><%= link_to "Trip Details", driver_trips_path(@driver.id) %></li> <%# added due to requirements (Suely) %>
+  <li><%= link_to "Trip Details", driver_trips_path(@driver.id) %></li>
 </ul>
 
 <h3>Select an action</h3>

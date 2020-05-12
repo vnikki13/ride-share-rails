@@ -18,7 +18,6 @@
   <li>Price: $<%= @trip.cost %></li>
   <li>
     <% if @trip.rating.nil? %>
-      <%# Removed select because show page can't edit%>
       <p>Rating: No Rating</p> 
     <% else %>
       <p>Rating: <%= @trip.rating %></p>

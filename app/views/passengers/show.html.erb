@@ -6,10 +6,10 @@
   <li>Phone Number: <%= @passenger.phone_num %></li>
   <li>Total Charges: $<%= @passenger.total_cost%></li>
   <li>Trip Dates: 
-    <% if @passenger.all_trips.empty? %>
+    <% if @passenger.trips.empty? %>
       No Trips
     <% else %>
-      <% @passenger.all_trips.each do |trip| %>
+      <% @passenger.trips.each do |trip| %>
         <%= link_to "#{trip.date}", trip_path(trip.id) %> /
       <% end %>
     <% end %>

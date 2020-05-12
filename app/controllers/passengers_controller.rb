@@ -1,16 +1,12 @@
 class PassengersController < ApplicationController
-
-  # shows list of passengers
   def index
     @passengers = Passenger.all.sort
   end
 
-  # creates a form
   def new 
     @passenger = Passenger.new
   end
   
-  # shows individual passenger details
   def show
     @passenger = Passenger.find_by(id: params[:id])
     if @passenger.nil?
@@ -19,7 +15,6 @@ class PassengersController < ApplicationController
     end
   end
       
-  # form submit button calls this
   def create
     @passenger = Passenger.new(passenger_params)
     if @passenger.save
@@ -29,7 +24,6 @@ class PassengersController < ApplicationController
     end
   end
     
-  # prepares the passenger data to edit it
   def edit
     @passenger = Passenger.find_by(id: params[:id])
     if @passenger.nil?
@@ -38,7 +32,6 @@ class PassengersController < ApplicationController
     end
   end
   
-  # updates the passenger with the data from the form
   def update
     @passenger = Passenger.find_by(id: params[:id])
     if @passenger.nil?
@@ -51,7 +44,6 @@ class PassengersController < ApplicationController
     end
   end
   
-  # deletes a passenger
   def destroy
     @passenger = Passenger.find_by(id: params[:id])
     if @passenger.nil?

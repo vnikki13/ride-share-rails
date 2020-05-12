@@ -1,5 +1,5 @@
 class TripsController < ApplicationController
-  def index # Included filter for Driver (Suely)
+  def index
     if params[:passenger_id]
       @passenger = Passenger.find_by(id: params[:passenger_id])
       @trips = @passenger.trips
@@ -9,21 +9,20 @@ class TripsController < ApplicationController
     else
       @trips = Trip.all
     end
-
   end
 
   def show
     @trip = Trip.find_by(id: params[:id])
-    if @trip.nil?  # added check from tests (Suely)
+    if @trip.nil?
       head :not_found
       return
     end
   end
 
-  def new # Included support for Driver (Suely)
+  def new
     if params[:passenger_id]
       passenger = Passenger.find_by(id: params[:passenger_id])
-      if passenger.nil?  # added check from tests (Suely)
+      if passenger.nil?
         head :not_found
         return
       end 
@@ -31,7 +30,7 @@ class TripsController < ApplicationController
       @trip = passenger.trips.new
     elsif params[:driver_id]
       driver = Driver.find_by(id: params[:driver_id])
-      if driver.nil?  # added check from tests (Suely)
+      if driver.nil?
         head :not_found
         return
       end 
@@ -55,25 +54,22 @@ class TripsController < ApplicationController
 
   def edit
     @trip = Trip.find_by(id: params[:id])
-    if @trip.nil?  # added check from tests (Suely)
+    if @trip.nil?
       head :not_found
       return
     end
-    redirect_to trip_path if @trip.nil?
   end
 
   def update
     @trip = Trip.find_by(id: params[:id])
     if @trip.nil?
-      redirect_to trip_path
+      render :edit
     elsif @trip.update(trip_params)
       redirect_to trip_path(@trip.id)
-    else
-      render :edit
     end
   end
 
-  def destroy # added check from tests (Suely)
+  def destroy
     @trip = Trip.find_by(id: params[:id])
     if @trip.nil?  
       head :not_found

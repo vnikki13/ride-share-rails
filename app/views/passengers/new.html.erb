@@ -1,32 +1,3 @@
 <h1>Creating a New Passenger</h1>
 
-<% if @passenger.errors.any? %>
-  <ul class="errors">
-    <% @passenger.errors.each do |column, message| %>
-      <li>
-        <strong><%= column.capitalize %></strong> <%= message %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
-
-<div class='row'>
-  <div class='col-md-4'>
-    <%= form_with model: @passenger, class: 'form-horizontal' do |f| %>
-      <p>Please enter the data for the passenger:</p>
-      <div class='form-group'>
-        <%= f.label :name, class: 'control-label' %>
-        <%= f.text_field :name, class: 'form-control', placeholder: "Passenger Name" %>
-      </div>
-
-      <div class='form-group'>
-        <%= f.label "Phone_number", class: 'control-label' %>
-        <%= f.text_field :phone_num, class: 'form-control', placeholder: "(909) 909-8000" %>
-      </div>
-
-      <div>
-        <%= f.submit "Save Passenger", class: "button" %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= render partial: 'form', locals: { action_name: 'New Passenger' }%>

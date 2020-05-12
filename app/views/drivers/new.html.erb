@@ -9,23 +9,24 @@
     <% end %>
   </ul>
 <% end %>
+
 <div class='row'>
   <div class='col-md-4'>
     <%= form_with model: @driver, class: 'form-horizontal' do |f| %>
-    <p>Please enter the data for the driver:</p>
-    <div class='form-group'>
-      <%= f.label :name, class: 'control-label '%>
-      <%= f.text_field :name, class: 'form-control', placeholder: "Driver Name" %>
-    </div>
+      <p>Please enter the data for the driver:</p>
+      <div class='form-group'>
+        <%= f.label :name, class: 'control-label '%>
+        <%= f.text_field :name, class: 'form-control', placeholder: "Driver Name" %>
+      </div>
 
-    <div class='form-group'>
-      <%= f.label :vin, class: 'control-label '%>
-      <%= f.text_field :vin, class: 'form-control', placeholder: "Vin Number" %>
-    </div>
+      <div class='form-group'>
+        <%= f.label :vin, class: 'control-label '%>
+        <%= f.text_field :vin, class: 'form-control', placeholder: "Vin Number" %>
+      </div>
 
-    <div class='form-group'>
-      <%= f.submit "Save Driver", class: "button" %>
-    </div>
+      <div class='form-group'>
+        <%= f.submit "Save Driver", class: "button" %>
+      </div>
     <% end %>
   </div>
 </div>
