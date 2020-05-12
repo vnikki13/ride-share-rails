@@ -18,7 +18,8 @@
   <li>Price: $<%= @trip.cost %></li>
   <li>
     <% if @trip.rating.nil? %>
-      <p>Select Rating <%= select_tag 'rating', options_for_select([1, 2, 3, 4, 5])%> </p>
+      <%# Removed select because show page can't edit%>
+      <p>Rating: No Rating</p> 
     <% else %>
       <p>Rating: <%= @trip.rating %></p>
     <% end %>
