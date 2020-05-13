@@ -114,14 +114,5 @@ describe Driver do
         expect(new_driver.total_earnings).must_be_close_to earnings, 0.01
       end
     end
-
-    describe "can go online" do # Method missing from model (Suely)
-      # Your code here
-    end
-
-    describe "can go offline" do # Method missing from model (Suely)
-      # Your code here
-    end
-
   end
 end
