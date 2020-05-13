@@ -80,10 +80,12 @@ describe Passenger do
       # Act and Assert - 1 trip
       trip_1 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, cost: 200)
       cost = 200
+      new_passenger.reload
       expect(new_passenger.total_cost).must_be_close_to cost, 0.01
       # Act and Assert - 2 trips
       trip_2 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, cost: 100)
       cost += 100
+      new_passenger.reload
       expect(new_passenger.total_cost).must_be_close_to cost, 0.01
     end
   end

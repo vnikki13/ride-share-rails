@@ -5,10 +5,11 @@ class Passenger < ApplicationRecord
   validates :phone_num, presence: true, format: { with: /\d{3}.*\d{3}.?\d{4}/ }
 
   def total_cost
-    costs = self.trips.where(passenger_id: self.id).map do |trip|
-      trip.cost
+    cost = 0
+    self.trips.each do |trip|
+      cost += trip.cost
     end
 
-    return costs.sum
+    return cost
   end
 end

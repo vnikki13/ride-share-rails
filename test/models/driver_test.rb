@@ -85,9 +85,11 @@ describe Driver do
         # Act and Assert - 1 trip
         trip_1 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, rating: 5)
         trip_1.save
+        new_driver.reload
         expect(new_driver.avg_rating).must_equal 5
         # Act and Assert - 2 trips
         trip_2 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, rating: 3)
+        new_driver.reload
         expect(new_driver.avg_rating).must_equal 4
       end
     end
@@ -103,10 +105,12 @@ describe Driver do
         trip_1 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, cost: 200)
         trip_1.save
         earnings = (200 - 1.65) * 0.8
+        new_driver.reload
         expect(new_driver.total_earnings).must_be_close_to earnings, 0.01
         # Act and Assert - 2 trips
         trip_2 = Trip.create(driver_id: new_driver.id, passenger_id: new_passenger.id, date: Date.today, cost: 100)
         earnings += (100 - 1.65) * 0.8
+        new_driver.reload
         expect(new_driver.total_earnings).must_be_close_to earnings, 0.01
       end
     end

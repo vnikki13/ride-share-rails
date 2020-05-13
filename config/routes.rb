@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :passengers do 
     resources :trips, only: [:index, :new]
   end
-  resources :drivers do # Included resources for Driver Trips (Suely)
+  resources :drivers do
     resources :trips, only: [:index, :new]
   end
 end

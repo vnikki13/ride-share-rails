@@ -5,22 +5,24 @@ class Driver < ApplicationRecord
   validates :vin, uniqueness: true, presence: true
 
   def avg_rating
-    trips_for_driver = self.trips.where(driver_id: self.id)
-    ratings = Array.new
+    trips_for_driver = self.trips
+    ratings = 0
+    count = 0
     trips_for_driver.each do |trip| 
       if !trip.rating.nil?
-        ratings << trip.rating 
+        ratings += trip.rating
+        count += 1
       end
     end
-    if ratings.length == 0
+    if count == 0
       return nil
     else
-      return ratings.sum / ratings.length
+      return ratings / count
     end
   end
 
   def total_earnings
-    earnings = self.trips.where(driver_id: self.id).map do |trip|
+    earnings = self.trips.map do |trip|
       (trip.cost - 1.65) * 0.8
     end
      return earnings.sum.round(2)

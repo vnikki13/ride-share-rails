@@ -1,11 +1,11 @@
 class TripsController < ApplicationController
   def index
     if params[:passenger_id]
-      @passenger = Passenger.find_by(id: params[:passenger_id])
-      @trips = @passenger.trips
+      passenger = Passenger.find_by(id: params[:passenger_id])
+      @trips = passenger.trips
     elsif params[:driver_id]
-      @driver = Driver.find_by(id: params[:driver_id])
-      @trips = @driver.trips
+      driver = Driver.find_by(id: params[:driver_id])
+      @trips = driver.trips
     else
       @trips = Trip.all
     end
@@ -26,16 +26,7 @@ class TripsController < ApplicationController
         head :not_found
         return
       end 
-      @passenger_name = passenger.name
       @trip = passenger.trips.new
-    elsif params[:driver_id]
-      driver = Driver.find_by(id: params[:driver_id])
-      if driver.nil?
-        head :not_found
-        return
-      end 
-      @driver_name = driver.name
-      @trip = driver.trips.new
     else
       @trip = Trip.new
     end
@@ -44,7 +35,7 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.new(trip_params)
     @trip.cost = rand(100..500)
-    @trip.driver_id = @trip.select_driver
+    @trip.select_driver
     if @trip.save
       redirect_to trip_path(@trip.id)
     else
@@ -70,13 +61,13 @@ class TripsController < ApplicationController
   end
 
   def destroy
-    @trip = Trip.find_by(id: params[:id])
-    if @trip.nil?  
+    trip = Trip.find_by(id: params[:id])
+    if trip.nil?  
       head :not_found
       return
     end
 
-    @trip.destroy 
+    trip.destroy 
     redirect_to trips_path
   end
 
